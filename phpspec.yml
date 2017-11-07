@@ -1,0 +1,5 @@
+formatter.name: pretty
+suites:
+    default:
+        namespace: WebGarden\UrlShortener
+        psr4_prefix: WebGarden\UrlShortener

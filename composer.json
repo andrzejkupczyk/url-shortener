@@ -1,0 +1,34 @@
+{
+    "name": "andrzejkupczyk/url-shortener",
+    "description": "A simple library to generate shortened URLs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrzej Kupczyk",
+            "email": "kontakt@andrzejkupczyk.pl",
+            "homepage": "http://andrzejkupczyk.pl"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "andrzejkupczyk/ddd-building-blocks": "^1.0",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WebGarden\\UrlShortener\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "phpspec run --ansi"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
