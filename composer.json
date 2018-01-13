@@ -12,7 +12,9 @@
     "require": {
         "php": "^7.0",
         "andrzejkupczyk/ddd-building-blocks": "^1.0",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "illuminate/console": "^5.5",
+        "illuminate/database": "^5.5"
     },
     "require-dev": {
         "phpspec/phpspec": "^4.0"
@@ -26,6 +28,13 @@
         "test": [
             "phpspec run --ansi"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WebGarden\\UrlShortener\\LaravelServiceProvider"
+            ]
+        }
     },
     "config": {
         "optimize-autoloader": true,
