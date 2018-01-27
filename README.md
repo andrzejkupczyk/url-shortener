@@ -9,7 +9,7 @@ A simple database-based provider is available as well.
 ## Install
 Via Composer
 ```
-composer require andrzejkupczyk/url-shortener:@dev
+composer require andrzejkupczyk/url-shortener:1.0.*@dev
 ```
 
 ## Laravel 5.5 support
