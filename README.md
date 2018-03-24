@@ -1,4 +1,4 @@
-# URL Shortener (beta)
+# URL Shortener (beta) [![Build Status](https://travis-ci.org/andrzejkupczyk/url-shortener.svg?branch=master)](https://travis-ci.org/andrzejkupczyk/url-shortener)
 A simple yet easily extendable library to generate shortened URLs using different providers: 
 [Google URL Shortener](https://goo.gl) and [TinyURL](https://tinyurl.com/). 
 A simple database-based provider is available as well.
