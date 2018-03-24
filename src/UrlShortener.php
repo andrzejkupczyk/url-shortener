@@ -5,33 +5,36 @@ namespace WebGarden\UrlShortener;
 use Illuminate\Database\Query\Builder;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
-use WebGarden\UrlShortener\Providers\Database\EloquentProvider;
-use WebGarden\UrlShortener\Providers\Google\GoogleProvider;
 use WebGarden\UrlShortener\Providers\Provider;
-use WebGarden\UrlShortener\Providers\TinyUrl\TinyUrlProvider;
 
 /**
+ * @method static UrlShortener eloquent(Url $baseUrl, Builder $query)
+ * @method static UrlShortener google(string $apiKey)
+ * @method static UrlShortener tinyUrl(string $apiKey)
  * @method Link expand(Url $shortUrl)
  * @method Link shorten(Url $longUrl)
  */
 class UrlShortener
 {
+    /** @var array */
+    protected static $providers = [
+        'eloquent' => Providers\Database\EloquentProvider::class,
+        'google' => Providers\Google\GoogleProvider::class,
+        'tinyUrl' => Providers\TinyUrl\TinyUrlProvider::class,
+    ];
+
     /** @var Provider */
     private $provider;
 
-    public static function eloquent(Url $baseUrl, Builder $query)
+    public static function __callStatic($name, $arguments)
     {
-        return new static(new EloquentProvider($baseUrl, $query));
-    }
+        if (empty(static::$providers[$name])) {
+            throw new \BadMethodCallException("The $name method does not exist.");
+        }
 
-    public static function google(string $apiKey)
-    {
-        return new static(new GoogleProvider($apiKey));
-    }
+        $provider = new static::$providers[$name](...$arguments);
 
-    public static function tinyUrl(string $apiKey)
-    {
-        return new static(new TinyUrlProvider($apiKey));
+        return new static($provider);
     }
 
     public function __construct(Provider $provider)

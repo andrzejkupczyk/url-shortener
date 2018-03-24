@@ -7,7 +7,7 @@ use WebGarden\UrlShortener\Model\ValueObjects\ShortCode;
 
 class ShortCodeFactory extends ShortCodeGenerator
 {
-    protected static function generate(Id $id, string $chars = ShortCode::CHARS): string
+    protected static function generate(Id $id, string $chars = ShortCode::ALLOWED_CHARS): string
     {
         $integer = $id->toNative() + 10000;
         $length = strlen($chars);

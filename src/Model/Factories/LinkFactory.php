@@ -17,13 +17,11 @@ class LinkFactory
      */
     public static function create($id, $shortUrl, $longUrl): Link
     {
-        $parameters = [
+        return new Link(
             Id::fromNative((int) $id),
             Url::fromNative((string) $shortUrl),
-            Url::fromNative((string) $longUrl),
-        ];
-
-        return new Link(...$parameters);
+            Url::fromNative((string) $longUrl)
+        );
     }
 
     /**

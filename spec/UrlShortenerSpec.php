@@ -17,10 +17,12 @@ class UrlShortenerSpec extends ObjectBehavior
         $this->shouldHaveType(UrlShortener::class);
     }
 
-    function it_is_initializable_statically()
+    function it_is_initializable_statically_using_the_google_provider()
     {
-        $this->beConstructedThrough('google', [Argument::type('string')]);
+        $this->beConstructedWith(new GoogleProvider(Argument::type('string')));
 
-        $this->provider()->shouldBeAnInstanceOf(GoogleProvider::class);
+        $subject = UrlShortener::google(Argument::type('string'));
+
+        $this->provider()->shouldBeAnInstanceOf(get_class($subject->provider()));
     }
 }

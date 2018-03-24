@@ -11,13 +11,13 @@ class ExpandUrl extends Command
 
     protected $signature = 'url:expand {url : The short URL to be expanded}';
 
-    protected function displayLink(UrlShortener $shortener, Url $url)
-    {
-        $this->alert(sprintf('Long URL: %s', $shortener->expand($url)->longUrl()));
-    }
-
     public function providers(): array
     {
         return ['google', 'eloquent'];
+    }
+
+    protected function displayLink(UrlShortener $shortener, Url $url)
+    {
+        $this->alert(sprintf('Long URL: %s', $shortener->expand($url)->longUrl()));
     }
 }

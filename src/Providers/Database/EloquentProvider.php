@@ -70,7 +70,9 @@ class EloquentProvider implements Provider
 
     private function generateShortUrl(Id $id): Url
     {
-        return Url::fromNative(sprintf('%s/%s', $this->baseUrl, $this->shortCodeFactory::createFromId($id)));
+        return Url::fromNative(
+            sprintf('%s/%s', $this->baseUrl, $this->shortCodeFactory::createFromId($id))
+        );
     }
 
     private function storeClosure(Url $longUrl): \Closure

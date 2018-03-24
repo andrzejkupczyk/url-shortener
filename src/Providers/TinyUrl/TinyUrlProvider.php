@@ -9,11 +9,10 @@ use WebGarden\UrlShortener\Providers\HttpProvider;
 
 class TinyUrlProvider extends HttpProvider
 {
-    /** @see http://tiny-url.info/open_api.html#provider_list */
-    const PROVIDER = 'tinyurl_com';
-
-    /** @var string */
     protected $baseUri = 'http://tiny-url.info/api/v1/create';
+
+    /** @var string Shorting URL service provider. */
+    protected $providerUrl = 'tinyurl_com';
 
     static protected function normalizeResponse($stream): array
     {
@@ -29,13 +28,29 @@ class TinyUrlProvider extends HttpProvider
         );
     }
 
+    /**
+     * Set shorting URL service provider.
+     *
+     * @see http://tiny-url.info/open_api.html#provider_list
+     *
+     * @param  string $providerUrl
+     *
+     * @return self
+     */
+    public function providerUrl(string $providerUrl)
+    {
+        $this->providerUrl = $providerUrl;
+
+        return $this;
+    }
+
     public function shorten(Url $longUrl): Link
     {
         $row = $this->request('post', [
             'form_params' => [
                 'format' => 'json',
                 'apikey' => $this->apiKey,
-                'provider' => static::PROVIDER,
+                'provider' => $this->providerUrl,
                 'url' => $longUrl->toNative(),
             ],
         ]);

@@ -9,7 +9,6 @@ use WebGarden\UrlShortener\Providers\HttpProvider;
 
 class GoogleProvider extends HttpProvider
 {
-    /** @var string */
     protected $baseUri = 'https://www.googleapis.com/urlshortener/v1/url';
 
     static protected function normalizeResponse($stream): array
