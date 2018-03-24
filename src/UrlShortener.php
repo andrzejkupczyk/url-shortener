@@ -5,6 +5,7 @@ namespace WebGarden\UrlShortener;
 use Illuminate\Database\Query\Builder;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
+use WebGarden\UrlShortener\Providers\Factory as ProviderFactory;
 use WebGarden\UrlShortener\Providers\Provider;
 
 /**
@@ -16,26 +17,8 @@ use WebGarden\UrlShortener\Providers\Provider;
  */
 class UrlShortener
 {
-    /** @var array */
-    protected static $providers = [
-        'eloquent' => Providers\Database\EloquentProvider::class,
-        'google' => Providers\Google\GoogleProvider::class,
-        'tinyUrl' => Providers\TinyUrl\TinyUrlProvider::class,
-    ];
-
     /** @var Provider */
     private $provider;
-
-    public static function __callStatic($name, $arguments)
-    {
-        if (empty(static::$providers[$name])) {
-            throw new \BadMethodCallException("The $name method does not exist.");
-        }
-
-        $provider = new static::$providers[$name](...$arguments);
-
-        return new static($provider);
-    }
 
     public function __construct(Provider $provider)
     {
@@ -45,6 +28,13 @@ class UrlShortener
     public function provider(): Provider
     {
         return $this->provider;
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        $provider = ProviderFactory::$name(...$arguments);
+
+        return new static($provider);
     }
 
     public function __call(string $name, array $arguments)

@@ -11,7 +11,7 @@ class GoogleProvider extends HttpProvider
 {
     protected $baseUri = 'https://www.googleapis.com/urlshortener/v1/url';
 
-    static protected function normalizeResponse($stream): array
+    protected static function normalizeResponse($stream): array
     {
         $decoded = parent::normalizeResponse($stream);
 

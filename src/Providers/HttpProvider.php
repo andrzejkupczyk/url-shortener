@@ -22,7 +22,7 @@ abstract class HttpProvider implements Provider
      *
      * @return object
      */
-    static protected function normalizeResponse($stream)
+    protected static function normalizeResponse($stream)
     {
         return \GuzzleHttp\json_decode($stream);
     }

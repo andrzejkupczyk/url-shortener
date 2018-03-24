@@ -14,7 +14,7 @@ class TinyUrlProvider extends HttpProvider
     /** @var string Shorting URL service provider. */
     protected $providerUrl = 'tinyurl_com';
 
-    static protected function normalizeResponse($stream): array
+    protected static function normalizeResponse($stream): array
     {
         $decoded = parent::normalizeResponse($stream);
 
