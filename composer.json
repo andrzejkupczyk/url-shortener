@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "andrzejkupczyk/ddd-building-blocks": "^1.2",
         "guzzlehttp/guzzle": "^6.3",
         "illuminate/console": "^5.5 || ^5.6",

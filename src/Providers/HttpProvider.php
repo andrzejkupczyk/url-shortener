@@ -14,6 +14,9 @@ abstract class HttpProvider implements Provider
     /** @var string */
     protected $baseUri;
 
+    /** @var int */
+    protected $connectionTimeout = 10;
+
     /** @var Client */
     protected $client;
 
@@ -30,16 +33,18 @@ abstract class HttpProvider implements Provider
     public function __construct(string $apiKey, ClientInterface $client = null)
     {
         $this->apiKey = $apiKey;
-        $this->client = $client ?: new Client(['timeout' => 2]);
+        $this->client = $client ?: new Client([
+            'timeout' => $this->connectionTimeout,
+        ]);
     }
 
     /**
      * Get normalized response.
      *
      * @param  string $method
-     * @param  array  $options
-     *
+     * @param  array $options
      * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function request(string $method, array $options = [])
     {

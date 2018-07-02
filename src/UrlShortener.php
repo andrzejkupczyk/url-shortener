@@ -4,12 +4,14 @@ namespace WebGarden\UrlShortener;
 
 use Illuminate\Database\Query\Builder;
 use WebGarden\UrlShortener\Model\Entities\Link;
+use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\Factory as ProviderFactory;
 use WebGarden\UrlShortener\Providers\Provider;
 
 /**
  * @method static UrlShortener eloquent(Url $baseUrl, Builder $query)
+ * @method static UrlShortener firebase(string $apiKey, Domain $dynamicLinkDomain)
  * @method static UrlShortener google(string $apiKey)
  * @method static UrlShortener tinyUrl(string $apiKey)
  * @method Link expand(Url $shortUrl)

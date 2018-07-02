@@ -7,6 +7,11 @@ return [
             'connection' => 'mysql',
             'table' => 'links',
         ],
+        'firebase' => [
+            'api_key' => 'YOUR_API_KEY',
+            'domain' => 'example.page.link',
+            'unguessable' => true,
+        ],
         'google' => [
             'api_key' => 'YOUR_API_KEY',
         ],

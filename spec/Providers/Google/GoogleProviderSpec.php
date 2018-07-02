@@ -30,7 +30,9 @@ class GoogleProviderSpec extends ObjectBehavior
 
         $response->getBody()->willReturn('{"id":"http://goo.gl/pwg8ss","longUrl":"https://github.com/andrzejkupczyk"}');
         $client->request(
-            Argument::type('string'), 'https://www.googleapis.com/urlshortener/v1/url', Argument::type('array')
+            Argument::type('string'),
+            'https://www.googleapis.com/urlshortener/v1/url',
+            Argument::type('array')
         )->willReturn($response);
 
         $this->beConstructedWith(Argument::type('string'), $client);
