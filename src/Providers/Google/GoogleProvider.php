@@ -7,6 +7,9 @@ use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\HttpProvider;
 
+/**
+ * @deprecated https://developers.googleblog.com/2018/03/transitioning-google-url-shortener.html
+ */
 class GoogleProvider extends HttpProvider
 {
     protected $baseUri = 'https://www.googleapis.com/urlshortener/v1/url';
@@ -32,7 +35,7 @@ class GoogleProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->request('post', [
+        $row = $this->post([
             'json' => [
                 'longUrl' => $longUrl->toNative(),
             ],

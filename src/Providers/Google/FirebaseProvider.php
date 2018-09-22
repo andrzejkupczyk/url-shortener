@@ -54,7 +54,7 @@ class FirebaseProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->request('post', [
+        $row = $this->post([
             'json' => [
                 'dynamicLinkInfo' => [
                     'dynamicLinkDomain' => $this->dynamicLinkDomain->toNative(),

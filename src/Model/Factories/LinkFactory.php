@@ -9,10 +9,9 @@ use WebGarden\UrlShortener\Model\ValueObjects\Url;
 class LinkFactory
 {
     /**
-     * @param  int    $id
+     * @param  int $id
      * @param  string $shortUrl
      * @param  string $longUrl
-     *
      * @return Link
      */
     public static function create($id, $shortUrl, $longUrl): Link
@@ -26,7 +25,6 @@ class LinkFactory
 
     /**
      * @param  object|array $row
-     *
      * @return Link
      */
     public static function createFromRow($row): Link

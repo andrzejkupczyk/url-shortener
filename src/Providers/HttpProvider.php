@@ -22,7 +22,6 @@ abstract class HttpProvider implements Provider
 
     /**
      * @param  StreamInterface $stream
-     *
      * @return object
      */
     protected static function normalizeResponse($stream)
@@ -39,7 +38,19 @@ abstract class HttpProvider implements Provider
     }
 
     /**
-     * Get normalized response.
+     * Send a POST request and get normalized response.
+     *
+     * @param  array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function post(array $options = [])
+    {
+        return $this->request(__METHOD__, $options);
+    }
+
+    /**
+     * Send a request and get normalized response.
      *
      * @param  string $method
      * @param  array $options

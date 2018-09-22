@@ -32,9 +32,7 @@ class TinyUrlProvider extends HttpProvider
      * Set shorting URL service provider.
      *
      * @see http://tiny-url.info/open_api.html#provider_list
-     *
      * @param  string $providerUrl
-     *
      * @return self
      */
     public function providerUrl(string $providerUrl)
@@ -46,7 +44,7 @@ class TinyUrlProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->request('post', [
+        $row = $this->post([
             'form_params' => [
                 'format' => 'json',
                 'apikey' => $this->apiKey,
