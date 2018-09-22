@@ -27,7 +27,7 @@ print($link->shortUrl()); // http://bit.ly/2Dkm8SJ
 $shortener = UrlShortener::bitly('7dc770e7e42d6d24b490d392201a85d9b3bbbdcd');
 $link = $shortener->expand(new Url('http://bit.ly/2Dkm8SJ'));
 
-print($link->longUrl()); // http://github.com/andrzejkupczyk/url-shortener
+print($link->longUrl()); // https://github.com/andrzejkupczyk/url-shortener
 ```
 
 ## Laravel support
