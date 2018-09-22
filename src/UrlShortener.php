@@ -22,6 +22,13 @@ class UrlShortener
     /** @var Provider */
     private $provider;
 
+    public static function __callStatic($name, $arguments)
+    {
+        $provider = ProviderFactory::$name(...$arguments);
+
+        return new static($provider);
+    }
+
     public function __construct(Provider $provider)
     {
         $this->provider = $provider;
@@ -30,13 +37,6 @@ class UrlShortener
     public function provider(): Provider
     {
         return $this->provider;
-    }
-
-    public static function __callStatic($name, $arguments)
-    {
-        $provider = ProviderFactory::$name(...$arguments);
-
-        return new static($provider);
     }
 
     public function __call(string $name, array $arguments)
