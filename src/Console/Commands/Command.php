@@ -2,14 +2,13 @@
 
 namespace WebGarden\UrlShortener\Console\Commands;
 
-use Illuminate\Support\Facades\DB;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\UrlShortener;
 
 abstract class Command extends \Illuminate\Console\Command
 {
     /** @var array */
-    protected $availableProviders = ['firebase', 'google', 'eloquent', 'tinyUrl'];
+    protected $availableProviders = ['bitly', 'firebase', 'tinyUrl'];
 
     public function handle()
     {
@@ -27,18 +26,12 @@ abstract class Command extends \Illuminate\Console\Command
         return $this->availableProviders;
     }
 
-    protected function eloquent(): UrlShortener
+    protected function bitly(): UrlShortener
     {
-        $connection = config('shortener.providers.eloquent.connection', 'mysql');
-        $builder = DB::connection($connection)->table(config('shortener.providers.eloquent.table', 'links'));
-
-        $baseUrl = config('shortener.providers.eloquent.base_url');
-
-        if (empty($baseUrl)) {
-            $baseUrl = $this->ask('Provide base URL for your shortened URLs');
-        }
-
-        return UrlShortener::{__FUNCTION__}(Url::fromNative($baseUrl), $builder);
+        return UrlShortener::bitly(
+            $this->resolveApiKey('bitly'),
+            config('shortener.providers.bitly.domain', 'bit.ly')
+        );
     }
 
     protected function firebase(): UrlShortener
@@ -51,11 +44,6 @@ abstract class Command extends \Illuminate\Console\Command
         $shortener->provider()->$dynamicLinkSuffix();
 
         return $shortener;
-    }
-
-    protected function google(): UrlShortener
-    {
-        return $this->httpProvider(__FUNCTION__);
     }
 
     protected function tinyUrl(): UrlShortener

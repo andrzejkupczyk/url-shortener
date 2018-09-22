@@ -5,11 +5,11 @@ namespace WebGarden\UrlShortener\Providers\TinyUrl;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
-use WebGarden\UrlShortener\Providers\HttpProvider;
+use WebGarden\UrlShortener\Providers\Http\HttpProvider;
 
 class TinyUrlProvider extends HttpProvider
 {
-    protected $baseUri = 'http://tiny-url.info/api/v1/create';
+    protected $baseUri = 'http://tiny-url.info/api/v1/';
 
     /** @var string Shorting URL service provider. */
     protected $providerUrl = 'tinyurl_com';
@@ -44,7 +44,7 @@ class TinyUrlProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->post([
+        $row = $this->request('create', [
             'form_params' => [
                 'format' => 'json',
                 'apikey' => $this->apiKey,

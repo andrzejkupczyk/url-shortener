@@ -3,7 +3,7 @@
 namespace WebGarden\UrlShortener\Model\Entities;
 
 use WebGarden\Model\Entity\Entity;
-use WebGarden\Model\ValueObject\Number\Natural as Id;
+use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 
 class Link extends Entity
