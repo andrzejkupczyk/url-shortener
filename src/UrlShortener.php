@@ -10,9 +10,8 @@ use WebGarden\UrlShortener\Providers\Factory as ProviderFactory;
 use WebGarden\UrlShortener\Providers\Provider;
 
 /**
- * @method static UrlShortener eloquent(Url $baseUrl, Builder $query)
+ * @method static UrlShortener bitly(string $apiKey, Domain $domain)
  * @method static UrlShortener firebase(string $apiKey, Domain $dynamicLinkDomain)
- * @method static UrlShortener google(string $apiKey)
  * @method static UrlShortener tinyUrl(string $apiKey)
  * @method Link expand(Url $shortUrl)
  * @method Link shorten(Url $longUrl)

@@ -14,8 +14,6 @@ class LaravelServiceProvider extends ServiceProvider
             __DIR__ . '/../config/shortener.php' => config_path('shortener.php'),
         ], 'config');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ExpandUrl::class,
