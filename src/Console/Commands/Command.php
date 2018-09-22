@@ -47,7 +47,7 @@ abstract class Command extends \Illuminate\Console\Command
         $mustBeUnguessable = config('shortener.providers.firebase.unguessable', true);
         $dynamicLinkSuffix = $mustBeUnguessable ? 'usingUnguessableSuffix' : 'usingShortSuffix';
 
-        $shortener = UrlShortener::firebase($this->resolveApiKey(), $domain);
+        $shortener = UrlShortener::firebase($this->resolveApiKey('firebase'), $domain);
         $shortener->provider()->$dynamicLinkSuffix();
 
         return $shortener;

@@ -56,7 +56,6 @@ class EloquentProvider implements Provider
 
     /**
      * @param  Url $longUrl
-     *
      * @return object|null
      */
     protected function store(Url $longUrl)
