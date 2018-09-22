@@ -4,13 +4,13 @@ namespace spec\WebGarden\UrlShortener\Model\Entities;
 
 use PhpSpec\ObjectBehavior;
 use WebGarden\Model\Entity\Entity;
-use WebGarden\Model\ValueObject\Number\Natural;
+use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 
 class LinkSpec extends ObjectBehavior
 {
-    function let(Natural $id, Url $url)
+    function let(Id $id, Url $url)
     {
         $this->beConstructedWith($id, $url, $url);
     }
@@ -23,6 +23,6 @@ class LinkSpec extends ObjectBehavior
 
     function it_should_be_identified_by_a_natural_number()
     {
-        $this->id()->shouldBeAnInstanceOf(Natural::class);
+        $this->id()->shouldBeAnInstanceOf(Id::class);
     }
 }

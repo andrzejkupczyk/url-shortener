@@ -3,11 +3,12 @@
 namespace WebGarden\UrlShortener\Providers\Google;
 
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\RequestOptions;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
-use WebGarden\UrlShortener\Providers\HttpProvider;
+use WebGarden\UrlShortener\Providers\Http\HttpProvider;
 
 /**
  * The Firebase Dynamic Links provider.
@@ -19,7 +20,7 @@ class FirebaseProvider extends HttpProvider
     const SHORT_SUFFIX = 'SHORT';
     const UNGUESSABLE_SUFFIX = 'UNGUESSABLE';
 
-    protected $baseUri = 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks';
+    protected $baseUri = 'https://firebasedynamiclinks.googleapis.com/v1/';
 
     /** @var \WebGarden\UrlShortener\Model\ValueObjects\Domain */
     protected $dynamicLinkDomain;
@@ -32,7 +33,7 @@ class FirebaseProvider extends HttpProvider
         $decoded = parent::normalizeResponse($stream);
 
         return [
-            'id' => 0,
+            'id' => '',
             'short_url' => $decoded->shortLink,
             'long_url' => $decoded->previewLink,
         ];
@@ -54,8 +55,8 @@ class FirebaseProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->post([
-            'json' => [
+        $row = $this->request('shortLinks', [
+            RequestOptions::JSON => [
                 'dynamicLinkInfo' => [
                     'dynamicLinkDomain' => $this->dynamicLinkDomain->toNative(),
                     'link' => $longUrl->toNative(),
@@ -64,7 +65,7 @@ class FirebaseProvider extends HttpProvider
                     'option' => $this->suffixLength,
                 ],
             ],
-            'query' => [
+            RequestOptions::QUERY => [
                 'key' => $this->apiKey,
             ],
         ]);
