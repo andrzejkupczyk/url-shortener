@@ -13,8 +13,8 @@
         "php": "^7.1",
         "andrzejkupczyk/ddd-building-blocks": "^1.2",
         "guzzlehttp/guzzle": "^6.3",
-        "illuminate/console": "^5.5 || ^5.6",
-        "illuminate/database": "^5.5 || ^5.6"
+        "illuminate/console": "^5.5",
+        "illuminate/database": "^5.5"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.6",
@@ -30,10 +30,9 @@
         "test": [
             "phpspec run --ansi"
         ],
-        "ci": [
+        "analysis": [
             "phpmd src/ text codesize,controversial,design,unusedcode",
-            "phpcs --standard=PSR2 src/",
-            "@test"
+            "phpcs --standard=PSR2 src/"
         ]
     },
     "extra": {
