@@ -4,8 +4,7 @@
 ![PHP requirement](https://img.shields.io/badge/PHP-^7.1-blue.svg)
 
 A simple yet easily extendable library to generate shortened URLs using different providers: 
-[Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links/), [Google URL Shortener](https://goo.gl) and [TinyURL](https://tinyurl.com/). 
-A simple database-based provider is available as well.
+[Bitly](https://bit.ly/), [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links/) and [TinyURL](https://tinyurl.com/).
 
 ## Install
 Via Composer
@@ -17,35 +16,28 @@ composer require andrzejkupczyk/url-shortener
 
 ### Creating short URLs
 ```php
-$shortener = UrlShortener::google('AIzaSyBkl6ihyPByyE5lmK03z7XN-1G0YfXjtj8');
+$shortener = UrlShortener::bitly('7dc770e7e42d6d24b490d392201a85d9b3bbbdcd');
 $link = $shortener->shorten(new Url('https://github.com/andrzejkupczyk/url-shortener'));
 
-var_dump((string) $link->shortUrl()); // string(21) "https://goo.gl/KPUFBm"
+print($link->shortUrl()); // http://bit.ly/2Dkm8SJ
 ```
 
 ### Expanding shortened URLs
 ```php
-$shortener = UrlShortener::google('AIzaSyBkl6ihyPByyE5lmK03z7XN-1G0YfXjtj8');
-$link = $shortener->expand(new Url('https://goo.gl/KPUFBm'));
+$shortener = UrlShortener::bitly('7dc770e7e42d6d24b490d392201a85d9b3bbbdcd');
+$link = $shortener->expand(new Url('http://bit.ly/2Dkm8SJ'));
 
-var_dump((string) $link->longUrl()); // string(47) "https://github.com/andrzejkupczyk/url-shortener"
+print($link->longUrl()); // https://github.com/andrzejkupczyk/url-shortener
 ```
 
-## Laravel 5.5 support
-It is possible to use this package within a Laravel application (it is configured for discovery).
+## Laravel support
+It is possible to use this package within a Laravel >=5.5 application (it is configured for discovery).
 
 ### Configuration  
 Publish and modify the configuration file:
 ```
 php artisan vendor:publish --provider="WebGarden\UrlShortener\LaravelServiceProvider"
 ```
-
-### Database provider
-To make it work you'll need to run migration:
-```
-php artisan migrate
-```
-
 ### Artisan commands
 ```
 url:expand {url}   Expand short URL

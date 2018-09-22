@@ -2,11 +2,11 @@
 
 namespace spec\WebGarden\UrlShortener\Providers\Google;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
-use WebGarden\Model\ValueObject\Number\Natural as Id;
+use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
@@ -19,22 +19,18 @@ class FirebaseProviderSpec extends ObjectBehavior
     public function __construct()
     {
         $this->link = new Link(
-            Id::fromNative(0),
+            Id::fromNative(''),
             Url::fromNative('https://example.page.link/short'),
             Url::fromNative('https://example.page.link/preview')
         );
     }
 
-    function let(ClientInterface $client, ResponseInterface $response, Domain $domain)
+    function let(Client $client, ResponseInterface $response, Domain $domain)
     {
         $response->getBody()->willReturn(
             '{"shortLink":"https://example.page.link/short","previewLink":"https://example.page.link/preview"}'
         );
-        $client->request(
-            Argument::type('string'),
-            'https://firebasedynamiclinks.googleapis.com/v1/shortLinks',
-            Argument::type('array')
-        )->willReturn($response);
+        $client->post('shortLinks', Argument::type('array'))->willReturn($response);
 
         $this->beConstructedWith(Argument::type('string'), $domain, $client);
     }

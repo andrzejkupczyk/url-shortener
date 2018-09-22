@@ -2,24 +2,18 @@
 
 namespace WebGarden\UrlShortener\Model\Factories;
 
-use WebGarden\Model\ValueObject\Number\Natural as Id;
+use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 
 class LinkFactory
 {
-    /**
-     * @param  int $id
-     * @param  string $shortUrl
-     * @param  string $longUrl
-     * @return Link
-     */
-    public static function create($id, $shortUrl, $longUrl): Link
+    public static function create(string $id, string $shortUrl, string $longUrl): Link
     {
         return new Link(
-            Id::fromNative((int) $id),
-            Url::fromNative((string) $shortUrl),
-            Url::fromNative((string) $longUrl)
+            Id::fromNative($id),
+            Url::fromNative($shortUrl),
+            Url::fromNative($longUrl)
         );
     }
 
