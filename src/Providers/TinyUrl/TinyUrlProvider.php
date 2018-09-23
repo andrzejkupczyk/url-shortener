@@ -18,7 +18,11 @@ class TinyUrlProvider extends HttpProvider
     {
         $decoded = parent::normalizeResponse($stream);
 
-        return ['id' => 0, 'short_url' => $decoded->shorturl, 'long_url' => $decoded->longurl];
+        return [
+            'id' => '',
+            'short_url' => $decoded->shorturl,
+            'long_url' => $decoded->longurl,
+        ];
     }
 
     public function expand(Url $shortUrl): Link
@@ -44,15 +48,15 @@ class TinyUrlProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->request('create', [
+        $options = [
             'form_params' => [
                 'format' => 'json',
                 'apikey' => $this->apiKey,
                 'provider' => $this->providerUrl,
                 'url' => $longUrl->toNative(),
             ],
-        ]);
+        ];
 
-        return LinkFactory::createFromRow($row);
+        return LinkFactory::createFromRow($this->request('create', $options));
     }
 }

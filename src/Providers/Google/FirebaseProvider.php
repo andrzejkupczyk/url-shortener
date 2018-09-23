@@ -55,7 +55,7 @@ class FirebaseProvider extends HttpProvider
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->request('shortLinks', [
+        $options = [
             RequestOptions::JSON => [
                 'dynamicLinkInfo' => [
                     'dynamicLinkDomain' => $this->dynamicLinkDomain->toNative(),
@@ -68,9 +68,9 @@ class FirebaseProvider extends HttpProvider
             RequestOptions::QUERY => [
                 'key' => $this->apiKey,
             ],
-        ]);
+        ];
 
-        return LinkFactory::createFromRow($row);
+        return LinkFactory::createFromRow($this->request('shortLinks', $options));
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace WebGarden\UrlShortener;
 
-use Illuminate\Database\Query\Builder;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;

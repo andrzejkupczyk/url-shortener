@@ -39,24 +39,24 @@ class BitlyProvider extends HttpProvider
 
     public function expand(Url $shortUrl): Link
     {
-        $row = $this->request('expand', [
+        $options = [
             RequestOptions::JSON => [
                 'bitlink_id' => $this->domain . $shortUrl->path(),
             ],
-        ]);
+        ];
 
-        return LinkFactory::createFromRow($row);
+        return LinkFactory::createFromRow($this->request('expand', $options));
     }
 
     public function shorten(Url $longUrl): Link
     {
-        $row = $this->request('bitlinks', [
+        $options = [
             RequestOptions::JSON => [
                 'domain' => $this->domain->toNative(),
                 'long_url' => $longUrl->toNative(),
             ],
-        ]);
+        ];
 
-        return LinkFactory::createFromRow($row);
+        return LinkFactory::createFromRow($this->request('bitlinks', $options));
     }
 }
