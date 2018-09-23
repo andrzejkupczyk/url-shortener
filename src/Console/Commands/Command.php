@@ -3,27 +3,25 @@
 namespace WebGarden\UrlShortener\Console\Commands;
 
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
+use WebGarden\UrlShortener\Providers\Factory;
 use WebGarden\UrlShortener\UrlShortener;
 
 abstract class Command extends \Illuminate\Console\Command
 {
-    /** @var array */
-    protected $availableProviders = ['bitly', 'firebase', 'tinyUrl'];
+    public static function providers(): array
+    {
+        return get_class_methods(Factory::class);
+    }
 
     public function handle()
     {
-        $provider = $this->choice('What provider would you like to use?', $this->providers(), 0);
+        $provider = $this->choice('What provider would you like to use?', static::providers(), 0);
 
         /** @var UrlShortener $shortener */
         $shortener = call_user_func([$this, $provider]);
         $url = Url::fromNative($this->argument('url'));
 
         $this->displayLink($shortener, $url);
-    }
-
-    public function providers(): array
-    {
-        return $this->availableProviders;
     }
 
     protected function bitly(): UrlShortener
@@ -48,12 +46,7 @@ abstract class Command extends \Illuminate\Console\Command
 
     protected function tinyUrl(): UrlShortener
     {
-        return $this->httpProvider(__FUNCTION__);
-    }
-
-    protected function httpProvider(string $name): UrlShortener
-    {
-        return UrlShortener::$name($this->resolveApiKey($name));
+        return UrlShortener::tinyUrl($this->resolveApiKey('tinyUrl'));
     }
 
     protected function resolveApiKey(string $name)

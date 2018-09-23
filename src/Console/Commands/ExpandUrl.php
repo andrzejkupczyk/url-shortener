@@ -11,9 +11,9 @@ class ExpandUrl extends Command
 
     protected $signature = 'url:expand {url : The short URL to be expanded}';
 
-    public function providers(): array
+    public static function providers(): array
     {
-        return ['google', 'eloquent'];
+        return ['bitly'];
     }
 
     protected function displayLink(UrlShortener $shortener, Url $url)
