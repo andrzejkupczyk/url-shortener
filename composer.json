@@ -13,8 +13,7 @@
         "php": "^7.1",
         "andrzejkupczyk/ddd-building-blocks": "^1.2",
         "guzzlehttp/guzzle": "^6.3",
-        "illuminate/console": "^5.5",
-        "illuminate/database": "^5.5"
+        "illuminate/console": "^5.5"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.6",
