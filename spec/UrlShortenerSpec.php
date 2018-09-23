@@ -8,6 +8,7 @@ use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Providers\Bitly\BitlyProvider;
 use WebGarden\UrlShortener\Providers\Google\FirebaseProvider;
 use WebGarden\UrlShortener\Providers\Provider;
+use WebGarden\UrlShortener\Providers\TinyUrl\TinyUrlProvider;
 use WebGarden\UrlShortener\UrlShortener;
 
 class UrlShortenerSpec extends ObjectBehavior
@@ -37,6 +38,15 @@ class UrlShortenerSpec extends ObjectBehavior
         );
 
         $subject = UrlShortener::firebase(Argument::type('string'), 'example.page.link');
+
+        $this->provider()->shouldBeAnInstanceOf(get_class($subject->provider()));
+    }
+
+    function it_is_initializable_statically_using_the_tinyurl_provider()
+    {
+        $this->beConstructedWith(new TinyUrlProvider(Argument::type('string')));
+
+        $subject = UrlShortener::tinyUrl(Argument::type('string'));
 
         $this->provider()->shouldBeAnInstanceOf(get_class($subject->provider()));
     }
