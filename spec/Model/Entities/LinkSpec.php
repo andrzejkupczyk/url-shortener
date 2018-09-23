@@ -21,7 +21,7 @@ class LinkSpec extends ObjectBehavior
         $this->shouldHaveType(Entity::class);
     }
 
-    function it_should_be_identified_by_a_natural_number()
+    function it_should_be_identified_by_a_string()
     {
         $this->id()->shouldBeAnInstanceOf(Id::class);
     }
