@@ -65,7 +65,7 @@ class FirebaseProviderSpec extends ObjectBehavior
     public function getMatchers(): array
     {
         return [
-            'haveSameIdentity' => function ($link1, $link2) {
+            'haveSameIdentity' => function (Link $link1, Link $link2) {
                 return $link1->sameIdentityAs($link2);
             },
         ];

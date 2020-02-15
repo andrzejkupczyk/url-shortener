@@ -16,8 +16,10 @@ class ExpandUrl extends Command
         return ['bitly'];
     }
 
-    protected function displayLink(UrlShortener $shortener, Url $url)
+    protected function displayLink(UrlShortener $shortener, Url $url): void
     {
-        $this->alert(sprintf('Long URL: %s', $shortener->expand($url)->longUrl()));
+        $expandedUrl = $shortener->expand($url)->longUrl();
+
+        $this->alert("Long URL: {$expandedUrl}");
     }
 }

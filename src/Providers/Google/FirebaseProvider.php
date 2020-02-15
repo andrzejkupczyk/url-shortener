@@ -2,6 +2,7 @@
 
 namespace WebGarden\UrlShortener\Providers\Google;
 
+use BadMethodCallException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use WebGarden\UrlShortener\Model\Entities\Link;
@@ -17,15 +18,15 @@ use WebGarden\UrlShortener\Providers\Http\HttpProvider;
  */
 class FirebaseProvider extends HttpProvider
 {
-    const SHORT_SUFFIX = 'SHORT';
-    const UNGUESSABLE_SUFFIX = 'UNGUESSABLE';
+    public const SHORT_SUFFIX = 'SHORT';
+    public const UNGUESSABLE_SUFFIX = 'UNGUESSABLE';
 
     protected $baseUri = 'https://firebasedynamiclinks.googleapis.com/v1/';
 
     /** @var \WebGarden\UrlShortener\Model\ValueObjects\Domain */
     protected $dynamicLinkDomain;
 
-    /** @var string Specifies how the path component of the short Dynamic Link is generated. */
+    /** @var string Specifies how the path component of the short Dynamic Link is generated */
     protected $suffixLength = self::UNGUESSABLE_SUFFIX;
 
     protected static function normalizeResponse($stream): array
@@ -34,8 +35,8 @@ class FirebaseProvider extends HttpProvider
 
         return [
             'id' => '',
-            'short_url' => $decoded->shortLink,
-            'long_url' => $decoded->previewLink,
+            'short_url' => $decoded['shortLink'],
+            'long_url' => $decoded['previewLink'],
         ];
     }
 
@@ -48,7 +49,7 @@ class FirebaseProvider extends HttpProvider
 
     public function expand(Url $shortUrl): Link
     {
-        throw new \BadMethodCallException(
+        throw new BadMethodCallException(
             'The Firebase does not provide an API which allows to expand shortened URLs.'
         );
     }
@@ -75,8 +76,6 @@ class FirebaseProvider extends HttpProvider
 
     /**
      * Return suffix that is being used.
-     *
-     * @return string
      */
     public function suffixBeingUsed(): string
     {
@@ -85,10 +84,8 @@ class FirebaseProvider extends HttpProvider
 
     /**
      * Specify that suffix must be short.
-     *
-     * @return self
      */
-    public function usingShortSuffix()
+    public function usingShortSuffix(): self
     {
         $this->suffixLength = self::SHORT_SUFFIX;
 
@@ -97,10 +94,8 @@ class FirebaseProvider extends HttpProvider
 
     /**
      * Specify that suffix must be unguessable.
-     *
-     * @return self
      */
-    public function usingUnguessableSuffix()
+    public function usingUnguessableSuffix(): self
     {
         $this->suffixLength = self::UNGUESSABLE_SUFFIX;
 

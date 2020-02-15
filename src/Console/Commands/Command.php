@@ -49,7 +49,7 @@ abstract class Command extends \Illuminate\Console\Command
         return UrlShortener::tinyUrl($this->resolveApiKey('tinyUrl'));
     }
 
-    protected function resolveApiKey(string $name)
+    protected function resolveApiKey(string $name): string
     {
         $apiKey = config("shortener.providers.$name.api_key");
 
@@ -60,5 +60,5 @@ abstract class Command extends \Illuminate\Console\Command
         return $apiKey;
     }
 
-    abstract protected function displayLink(UrlShortener $shortener, Url $url);
+    abstract protected function displayLink(UrlShortener $shortener, Url $url): void;
 }

@@ -15,7 +15,7 @@ use WebGarden\UrlShortener\Providers\Provider;
  * @method Link expand(Url $shortUrl)
  * @method Link shorten(Url $longUrl)
  */
-class UrlShortener
+final class UrlShortener
 {
     /** @var Provider */
     private $provider;

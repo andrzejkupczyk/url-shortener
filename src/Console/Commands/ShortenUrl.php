@@ -11,8 +11,10 @@ class ShortenUrl extends Command
 
     protected $signature = 'url:shorten {url : The long URL to be shortened}';
 
-    protected function displayLink(UrlShortener $shortener, Url $url)
+    protected function displayLink(UrlShortener $shortener, Url $url): void
     {
-        $this->alert(sprintf('Short URL: %s', $shortener->shorten($url)->shortUrl()));
+        $shortenedUrl = $shortener->shorten($url)->shortUrl();
+
+        $this->alert("Short URL: {$shortenedUrl}");
     }
 }
