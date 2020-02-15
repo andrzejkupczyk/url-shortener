@@ -2,6 +2,7 @@
 
 namespace WebGarden\UrlShortener\Providers\TinyUrl;
 
+use BadMethodCallException;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
@@ -20,14 +21,14 @@ class TinyUrlProvider extends HttpProvider
 
         return [
             'id' => '',
-            'short_url' => $decoded->shorturl,
-            'long_url' => $decoded->longurl,
+            'short_url' => $decoded['shorturl'],
+            'long_url' => $decoded['longurl'],
         ];
     }
 
     public function expand(Url $shortUrl): Link
     {
-        throw new \BadMethodCallException(
+        throw new BadMethodCallException(
             'The Tiny URL does not provide an API which allows to expand shortened URLs.'
         );
     }
@@ -36,10 +37,8 @@ class TinyUrlProvider extends HttpProvider
      * Set shorting URL service provider.
      *
      * @see http://tiny-url.info/open_api.html#provider_list
-     * @param  string $providerUrl
-     * @return self
      */
-    public function providerUrl(string $providerUrl)
+    public function providerUrl(string $providerUrl): self
     {
         $this->providerUrl = $providerUrl;
 

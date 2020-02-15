@@ -18,7 +18,8 @@ class LinkFactory
     }
 
     /**
-     * @param  object|array $row
+     * @param object|array $row
+     *
      * @return Link
      */
     public static function createFromRow($row): Link

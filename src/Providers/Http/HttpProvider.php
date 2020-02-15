@@ -5,7 +5,6 @@ namespace WebGarden\UrlShortener\Providers\Http;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use Psr\Http\Message\StreamInterface;
 use WebGarden\UrlShortener\Providers\Provider;
 
 abstract class HttpProvider implements Provider
@@ -23,15 +22,14 @@ abstract class HttpProvider implements Provider
     protected $connectionTimeout = 10;
 
     /**
-     * @param  StreamInterface $stream
-     * @return object
+     * @param \Psr\Http\Message\StreamInterface|string $stream
      */
-    protected static function normalizeResponse($stream)
+    protected static function normalizeResponse($stream): array
     {
-        return \GuzzleHttp\json_decode($stream);
+        return \GuzzleHttp\json_decode($stream, true);
     }
 
-    public function __construct(string $apiKey, ClientInterface $client = null)
+    public function __construct(string $apiKey, ?ClientInterface $client = null)
     {
         $this->apiKey = $apiKey;
         $this->client = $client ?: new Client([
@@ -43,10 +41,6 @@ abstract class HttpProvider implements Provider
 
     /**
      * Send request and get normalized response.
-     *
-     * @param  string $uri
-     * @param  array $options
-     * @return object
      */
     protected function request(string $uri = '', array $options = [])
     {
@@ -55,19 +49,14 @@ abstract class HttpProvider implements Provider
 
     /**
      * Push a middleware to the top of the handler stack.
-     *
-     * @param  callable $middleware
-     * @param  string $name
      */
-    protected function pushMiddleware(callable $middleware, string $name = '')
+    protected function pushMiddleware(callable $middleware, string $name = ''): void
     {
         $this->handler()->push($middleware, $name);
     }
 
     /**
      * Return handler utilized by the client.
-     *
-     * @return \GuzzleHttp\HandlerStack
      */
     private function handler(): HandlerStack
     {

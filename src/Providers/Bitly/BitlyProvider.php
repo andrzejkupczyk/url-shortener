@@ -23,9 +23,9 @@ class BitlyProvider extends HttpProvider
         $decoded = parent::normalizeResponse($stream);
 
         return [
-            'id' => $decoded->id,
-            'short_url' => $decoded->link,
-            'long_url' => $decoded->long_url,
+            'id' => $decoded['id'],
+            'short_url' => $decoded['link'],
+            'long_url' => $decoded['long_url'],
         ];
     }
 
