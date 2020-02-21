@@ -3,19 +3,16 @@
 namespace WebGarden\UrlShortener;
 
 use WebGarden\UrlShortener\Model\Entities\Link;
-use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\Factory as ProviderFactory;
 use WebGarden\UrlShortener\Providers\Provider;
 
 /**
- * @method static UrlShortener bitly(string $apiKey, Domain $domain)
- * @method static UrlShortener firebase(string $apiKey, Domain $dynamicLinkDomain)
+ * @method static UrlShortener bitly(string $apiKey, string $domain)
+ * @method static UrlShortener firebase(string $apiKey, string $dynamicLinkDomain)
  * @method static UrlShortener tinyUrl(string $apiKey)
- * @method Link expand(Url $shortUrl)
- * @method Link shorten(Url $longUrl)
  */
-final class UrlShortener
+final class UrlShortener implements Provider
 {
     /** @var Provider */
     private $provider;
@@ -32,13 +29,18 @@ final class UrlShortener
         $this->provider = $provider;
     }
 
+    public function expand(Url $shortUrl): Link
+    {
+        return $this->provider->expand($shortUrl);
+    }
+
+    public function shorten(Url $longUrl): Link
+    {
+        return $this->provider->shorten($longUrl);
+    }
+
     public function provider(): Provider
     {
         return $this->provider;
-    }
-
-    public function __call(string $name, array $arguments)
-    {
-        return call_user_func_array([$this->provider, $name], $arguments);
     }
 }

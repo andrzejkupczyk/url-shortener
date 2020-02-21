@@ -1,13 +1,12 @@
 <?php
 
-namespace WebGarden\UrlShortener\Providers\Http;
+namespace WebGarden\UrlShortener\Clients\Http;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-use WebGarden\UrlShortener\Providers\Provider;
 
-abstract class HttpProvider implements Provider
+abstract class HttpClient
 {
     /** @var string */
     protected $apiKey;

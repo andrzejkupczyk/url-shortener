@@ -5,18 +5,19 @@ namespace WebGarden\UrlShortener\Providers\Google;
 use BadMethodCallException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
+use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
-use WebGarden\UrlShortener\Providers\Http\HttpProvider;
+use WebGarden\UrlShortener\Providers\Provider;
 
 /**
  * The Firebase Dynamic Links provider.
  *
  * @see https://firebase.google.com/docs/dynamic-links/rest
  */
-class FirebaseProvider extends HttpProvider
+class FirebaseProvider extends HttpClient implements Provider
 {
     public const SHORT_SUFFIX = 'SHORT';
     public const UNGUESSABLE_SUFFIX = 'UNGUESSABLE';
