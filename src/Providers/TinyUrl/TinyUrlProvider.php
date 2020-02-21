@@ -3,12 +3,13 @@
 namespace WebGarden\UrlShortener\Providers\TinyUrl;
 
 use BadMethodCallException;
+use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
-use WebGarden\UrlShortener\Providers\Http\HttpProvider;
+use WebGarden\UrlShortener\Providers\Provider;
 
-class TinyUrlProvider extends HttpProvider
+class TinyUrlProvider extends HttpClient implements Provider
 {
     protected $baseUri = 'http://tiny-url.info/api/v1/';
 

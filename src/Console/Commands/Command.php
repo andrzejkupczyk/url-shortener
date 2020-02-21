@@ -44,6 +44,14 @@ abstract class Command extends \Illuminate\Console\Command
         return $shortener;
     }
 
+    protected function personal(): UrlShortener
+    {
+        $connectionUrl = config('shortener.clients.database.url');
+        $baseUrl = config('shortener.providers.personal.base_url');
+
+        return UrlShortener::personal($connectionUrl, $baseUrl);
+    }
+
     protected function tinyUrl(): UrlShortener
     {
         return UrlShortener::tinyUrl($this->resolveApiKey('tinyUrl'));

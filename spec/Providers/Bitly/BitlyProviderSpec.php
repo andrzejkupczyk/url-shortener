@@ -7,6 +7,7 @@ use GuzzleHttp\HandlerStack;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
+use spec\WebGarden\UrlShortener\Providers\LinkIdentityMatcher;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Model\Entities\Link;
@@ -16,9 +17,11 @@ use WebGarden\UrlShortener\Providers\Bitly\BitlyProvider;
 
 class BitlyProviderSpec extends ObjectBehavior
 {
+    use LinkIdentityMatcher;
+
     protected $link;
 
-    public function __construct()
+    function __construct()
     {
         $this->link = new Link(
             Id::fromNative('bit.ly/2Dkm8SJ'),
@@ -53,14 +56,5 @@ class BitlyProviderSpec extends ObjectBehavior
         $client->post('bitlinks', Argument::type('array'))->willReturn($response);
 
         $this->shorten($url)->shouldHaveSameIdentity($this->link);
-    }
-
-    public function getMatchers(): array
-    {
-        return [
-            'haveSameIdentity' => function ($link1, $link2) {
-                return $link1->sameIdentityAs($link2);
-            },
-        ];
     }
 }

@@ -4,14 +4,15 @@ namespace WebGarden\UrlShortener\Providers\Bitly;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
+use WebGarden\UrlShortener\Clients\Http\HttpClient;
+use WebGarden\UrlShortener\Clients\Http\Middleware\AddOAuthToken;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
-use WebGarden\UrlShortener\Providers\Http\HttpProvider;
-use WebGarden\UrlShortener\Providers\Http\Middleware\AddOAuthToken;
+use WebGarden\UrlShortener\Providers\Provider;
 
-class BitlyProvider extends HttpProvider
+class BitlyProvider extends HttpClient implements Provider
 {
     protected $baseUri = 'https://api-ssl.bitly.com/v4/';
 

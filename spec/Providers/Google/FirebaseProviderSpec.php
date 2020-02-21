@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
+use spec\WebGarden\UrlShortener\Providers\LinkIdentityMatcher;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
@@ -14,6 +15,8 @@ use WebGarden\UrlShortener\Providers\Google\FirebaseProvider;
 
 class FirebaseProviderSpec extends ObjectBehavior
 {
+    use LinkIdentityMatcher;
+
     protected $link;
 
     public function __construct()
@@ -60,14 +63,5 @@ class FirebaseProviderSpec extends ObjectBehavior
     function it_throws_exception_when_url_is_expanded(Url $url)
     {
         $this->shouldThrow(\BadMethodCallException::class)->duringExpand($url);
-    }
-
-    public function getMatchers(): array
-    {
-        return [
-            'haveSameIdentity' => function (Link $link1, Link $link2) {
-                return $link1->sameIdentityAs($link2);
-            },
-        ];
     }
 }
