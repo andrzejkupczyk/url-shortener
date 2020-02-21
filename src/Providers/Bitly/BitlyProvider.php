@@ -30,7 +30,7 @@ class BitlyProvider extends HttpClient implements Provider
         ];
     }
 
-    public function __construct(string $apiKey, Domain $domain, ClientInterface $client = null)
+    public function __construct(string $apiKey, Domain $domain, ?ClientInterface $client = null)
     {
         parent::__construct($apiKey, $client);
         $this->pushMiddleware(new AddOAuthToken($this->apiKey));

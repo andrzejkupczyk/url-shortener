@@ -41,7 +41,7 @@ class FirebaseProvider extends HttpClient implements Provider
         ];
     }
 
-    public function __construct(string $apiKey, Domain $dynamicLinkDomain, ClientInterface $client = null)
+    public function __construct(string $apiKey, Domain $dynamicLinkDomain, ?ClientInterface $client = null)
     {
         parent::__construct($apiKey, $client);
 
