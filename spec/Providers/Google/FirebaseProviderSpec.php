@@ -2,12 +2,11 @@
 
 namespace spec\WebGarden\UrlShortener\Providers\Google;
 
-use GuzzleHttp\Client;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
 use spec\WebGarden\UrlShortener\Providers\LinkIdentityMatcher;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
+use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
@@ -28,14 +27,14 @@ class FirebaseProviderSpec extends ObjectBehavior
         );
     }
 
-    function let(Client $client, ResponseInterface $response, Domain $domain)
+    function let(HttpClient $client, Domain $domain)
     {
-        $response->getBody()->willReturn(
-            '{"shortLink":"https://example.page.link/short","previewLink":"https://example.page.link/preview"}'
-        );
-        $client->post('shortLinks', Argument::type('array'))->willReturn($response);
+        $client->request('shortLinks', Argument::type('array'))->willReturn([
+            'shortLink' => 'https://example.page.link/short',
+            'previewLink' => 'https://example.page.link/preview',
+        ]);
 
-        $this->beConstructedWith(Argument::type('string'), $domain, $client);
+        $this->beConstructedWith($client, '', $domain);
     }
 
     function it_is_initializable()
@@ -50,7 +49,7 @@ class FirebaseProviderSpec extends ObjectBehavior
 
     function it_specifies_that_suffix_should_be_short()
     {
-        $this->usingShortSuffix();
+        $this->useShortSuffix();
 
         $this->suffixBeingUsed()->shouldBe(FirebaseProvider::SHORT_SUFFIX);
     }

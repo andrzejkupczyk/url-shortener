@@ -2,39 +2,25 @@
 
 namespace WebGarden\UrlShortener\Providers\Bitly;
 
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use WebGarden\UrlShortener\Clients\Http\HttpClient;
-use WebGarden\UrlShortener\Clients\Http\Middleware\AddOAuthToken;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\Provider;
 
-class BitlyProvider extends HttpClient implements Provider
+class BitlyProvider implements Provider
 {
-    protected $baseUri = 'https://api-ssl.bitly.com/v4/';
+    /** @var HttpClient */
+    protected $client;
 
     /** @var Domain */
     protected $domain;
 
-    protected static function normalizeResponse($stream): array
+    public function __construct(HttpClient $client, Domain $domain)
     {
-        $decoded = parent::normalizeResponse($stream);
-
-        return [
-            'id' => $decoded['id'],
-            'short_url' => $decoded['link'],
-            'long_url' => $decoded['long_url'],
-        ];
-    }
-
-    public function __construct(string $apiKey, Domain $domain, ?ClientInterface $client = null)
-    {
-        parent::__construct($apiKey, $client);
-        $this->pushMiddleware(new AddOAuthToken($this->apiKey));
-
+        $this->client = $client;
         $this->domain = $domain;
     }
 
@@ -46,7 +32,9 @@ class BitlyProvider extends HttpClient implements Provider
             ],
         ];
 
-        return LinkFactory::createFromRow($this->request('expand', $options));
+        $response = $this->client->request('expand', $options);
+
+        return $this->createLink($response);
     }
 
     public function shorten(Url $longUrl): Link
@@ -58,6 +46,17 @@ class BitlyProvider extends HttpClient implements Provider
             ],
         ];
 
-        return LinkFactory::createFromRow($this->request('bitlinks', $options));
+        $response = $this->client->request('bitlinks', $options);
+
+        return $this->createLink($response);
+    }
+
+    private function createLink(array $response): Link
+    {
+        return LinkFactory::createFromRow([
+            'id' => $response['id'],
+            'short_url' => $response['link'],
+            'long_url' => $response['long_url'],
+        ]);
     }
 }

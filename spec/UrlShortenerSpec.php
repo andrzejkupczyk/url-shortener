@@ -4,6 +4,7 @@ namespace spec\WebGarden\UrlShortener;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Providers\Bitly\BitlyProvider;
 use WebGarden\UrlShortener\Providers\Google\FirebaseProvider;
@@ -22,31 +23,27 @@ class UrlShortenerSpec extends ObjectBehavior
 
     function it_is_initializable_statically_using_the_bitly_provider()
     {
-        $this->beConstructedWith(
-            new BitlyProvider(Argument::type('string'), new Domain('bit.ly'))
-        );
+        $this->beConstructedWith(new BitlyProvider(new HttpClient(''), new Domain('bit.ly')));
 
-        $subject = UrlShortener::bitly(Argument::type('string'), 'bit.ly');
+        $subject = UrlShortener::bitly('', '', 'bit.ly');
 
         $this->provider()->shouldBeAnInstanceOf(get_class($subject->provider()));
     }
 
     function it_is_initializable_statically_using_the_firebase_provider()
     {
-        $this->beConstructedWith(
-            new FirebaseProvider(Argument::type('string'), new Domain('example.page.link'))
-        );
+        $this->beConstructedWith(new FirebaseProvider(new HttpClient(''), '', new Domain('example.page.link')));
 
-        $subject = UrlShortener::firebase(Argument::type('string'), 'example.page.link');
+        $subject = UrlShortener::firebase('', '', 'example.page.link');
 
         $this->provider()->shouldBeAnInstanceOf(get_class($subject->provider()));
     }
 
     function it_is_initializable_statically_using_the_tinyurl_provider()
     {
-        $this->beConstructedWith(new TinyUrlProvider(Argument::type('string')));
+        $this->beConstructedWith(new TinyUrlProvider(new HttpClient(''), ''));
 
-        $subject = UrlShortener::tinyUrl(Argument::type('string'));
+        $subject = UrlShortener::tinyUrl('', '');
 
         $this->provider()->shouldBeAnInstanceOf(get_class($subject->provider()));
     }

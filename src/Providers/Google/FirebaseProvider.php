@@ -3,7 +3,6 @@
 namespace WebGarden\UrlShortener\Providers\Google;
 
 use BadMethodCallException;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
@@ -17,12 +16,16 @@ use WebGarden\UrlShortener\Providers\Provider;
  *
  * @see https://firebase.google.com/docs/dynamic-links/rest
  */
-class FirebaseProvider extends HttpClient implements Provider
+class FirebaseProvider implements Provider
 {
     public const SHORT_SUFFIX = 'SHORT';
     public const UNGUESSABLE_SUFFIX = 'UNGUESSABLE';
 
-    protected $baseUri = 'https://firebasedynamiclinks.googleapis.com/v1/';
+    /** @var HttpClient */
+    protected $client;
+
+    /** @var string */
+    protected $apiKey;
 
     /** @var \WebGarden\UrlShortener\Model\ValueObjects\Domain */
     protected $dynamicLinkDomain;
@@ -30,21 +33,10 @@ class FirebaseProvider extends HttpClient implements Provider
     /** @var string Specifies how the path component of the short Dynamic Link is generated */
     protected $suffixLength = self::UNGUESSABLE_SUFFIX;
 
-    protected static function normalizeResponse($stream): array
+    public function __construct(HttpClient $client, string $apiKey, Domain $dynamicLinkDomain)
     {
-        $decoded = parent::normalizeResponse($stream);
-
-        return [
-            'id' => '',
-            'short_url' => $decoded['shortLink'],
-            'long_url' => $decoded['previewLink'],
-        ];
-    }
-
-    public function __construct(string $apiKey, Domain $dynamicLinkDomain, ?ClientInterface $client = null)
-    {
-        parent::__construct($apiKey, $client);
-
+        $this->client = $client;
+        $this->apiKey = $apiKey;
         $this->dynamicLinkDomain = $dynamicLinkDomain;
     }
 
@@ -72,7 +64,13 @@ class FirebaseProvider extends HttpClient implements Provider
             ],
         ];
 
-        return LinkFactory::createFromRow($this->request('shortLinks', $options));
+        $response = $this->client->request('shortLinks', $options);
+
+        return LinkFactory::createFromRow([
+            'id' => '',
+            'short_url' => $response['shortLink'],
+            'long_url' => $response['previewLink'],
+        ]);
     }
 
     /**
@@ -86,20 +84,16 @@ class FirebaseProvider extends HttpClient implements Provider
     /**
      * Specify that suffix must be short.
      */
-    public function usingShortSuffix(): self
+    public function useShortSuffix(): void
     {
         $this->suffixLength = self::SHORT_SUFFIX;
-
-        return $this;
     }
 
     /**
      * Specify that suffix must be unguessable.
      */
-    public function usingUnguessableSuffix(): self
+    public function useUnguessableSuffix(): void
     {
         $this->suffixLength = self::UNGUESSABLE_SUFFIX;
-
-        return $this;
     }
 }

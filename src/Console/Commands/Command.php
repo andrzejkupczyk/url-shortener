@@ -26,40 +26,39 @@ abstract class Command extends \Illuminate\Console\Command
 
     protected function bitly(): UrlShortener
     {
-        return UrlShortener::bitly(
-            $this->resolveApiKey('bitly'),
-            config('shortener.providers.bitly.domain', 'bit.ly')
-        );
+        $apiKey = $this->resolveApiKey('bitly');
+        $config = config('shortener.providers.bitly');
+
+        return UrlShortener::bitly($config['api_uri'], $apiKey, $config['domain']);
     }
 
     protected function firebase(): UrlShortener
     {
-        $domain = config('shortener.providers.firebase.domain');
-        $mustBeUnguessable = config('shortener.providers.firebase.unguessable', true);
-        $dynamicLinkSuffix = $mustBeUnguessable ? 'usingUnguessableSuffix' : 'usingShortSuffix';
+        $config = config('shortener.providers.firebase');
 
-        $shortener = UrlShortener::firebase($this->resolveApiKey('firebase'), $domain);
-        $shortener->provider()->$dynamicLinkSuffix();
+        $shortener = UrlShortener::firebase(
+            $config['api_uri'],
+            $this->resolveApiKey('firebase'),
+            $config['domain']
+        );
+
+        $dynamicLinkSuffix = $config['unguessable'] ? 'useUnguessableSuffix' : 'useShortSuffix';
+        call_user_func([$shortener->provider(), $dynamicLinkSuffix]);
 
         return $shortener;
     }
 
-    protected function personal(): UrlShortener
-    {
-        $connectionUrl = config('shortener.clients.database.url');
-        $baseUrl = config('shortener.providers.personal.base_url');
-
-        return UrlShortener::personal($connectionUrl, $baseUrl);
-    }
-
     protected function tinyUrl(): UrlShortener
     {
-        return UrlShortener::tinyUrl($this->resolveApiKey('tinyUrl'));
+        return UrlShortener::tinyUrl(
+            config('shortener.providers.tinyUrl.api_uri'),
+            $this->resolveApiKey('tinyUrl')
+        );
     }
 
     protected function resolveApiKey(string $name): string
     {
-        $apiKey = config("shortener.providers.$name.api_key");
+        $apiKey = config("shortener.providers.{$name}.api_key");
 
         if (empty($apiKey)) {
             $apiKey = $this->ask(sprintf('Provide your %s API key', ucfirst($name)));
