@@ -9,7 +9,6 @@ use WebGarden\Model\ValueObject\StringLiteral\StringLiteral;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
-use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\Bitly\BitlyProvider;
 
@@ -36,7 +35,7 @@ class BitlyProviderSpec extends ObjectBehavior
             'long_url' => 'https://github.com/andrzejkupczyk/url-shortener',
         ]);
 
-        $this->beConstructedWith($client, Domain::fromNative('bit.ly'));
+        $this->beConstructedWith($client);
     }
 
     function it_is_initializable()

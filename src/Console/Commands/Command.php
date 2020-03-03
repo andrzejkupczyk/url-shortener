@@ -26,24 +26,29 @@ abstract class Command extends \Illuminate\Console\Command
 
     protected function bitly(): UrlShortener
     {
-        $apiKey = $this->resolveApiKey('bitly');
-        $config = config('shortener.providers.bitly');
-
-        return UrlShortener::bitly($config['api_uri'], $apiKey, $config['domain']);
+        return UrlShortener::bitly(
+            config('shortener.providers.bitly.api_uri'),
+            $this->resolveApiKey('bitly'),
+            config('shortener.providers.bitly.domain')
+        );
     }
 
     protected function firebase(): UrlShortener
     {
-        $config = config('shortener.providers.firebase');
-
         $shortener = UrlShortener::firebase(
-            $config['api_uri'],
+            config('shortener.providers.firebase.api_uri'),
             $this->resolveApiKey('firebase'),
-            $config['domain']
+            config('shortener.providers.firebase.domain')
         );
 
-        $dynamicLinkSuffix = $config['unguessable'] ? 'useUnguessableSuffix' : 'useShortSuffix';
-        call_user_func([$shortener->provider(), $dynamicLinkSuffix]);
+        /** @var \WebGarden\UrlShortener\Providers\Google\FirebaseProvider $provider */
+        $provider = $shortener->provider();
+
+        if (config('shortener.providers.firebase.unguessable', true)) {
+            $provider->useUnguessableSuffix();
+        } else {
+            $provider->useShortSuffix();
+        }
 
         return $shortener;
     }

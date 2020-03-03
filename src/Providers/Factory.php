@@ -11,10 +11,14 @@ use WebGarden\UrlShortener\Model\ValueObjects\Domain;
  */
 class Factory
 {
-    public static function bitly(string $apiUri, string $apiKey, string $domain): Provider
+    public static function bitly(string $apiUri, string $apiKey, ?string $domain = null): Provider
     {
         $client = new HttpClient($apiUri);
         $client->pushMiddleware(new AddOAuthToken($apiKey));
+
+        if ($domain === null) {
+            return new Bitly\BitlyProvider($client);
+        }
 
         return new Bitly\BitlyProvider($client, Domain::fromNative($domain));
     }
