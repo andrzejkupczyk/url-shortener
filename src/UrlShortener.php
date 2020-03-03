@@ -8,7 +8,7 @@ use WebGarden\UrlShortener\Providers\Factory as ProviderFactory;
 use WebGarden\UrlShortener\Providers\Provider;
 
 /**
- * @method static UrlShortener bitly(string $apiUri, string $apiKey, string $domain)
+ * @method static UrlShortener bitly(string $apiUri, string $apiKey, ?string $domain)
  * @method static UrlShortener firebase(string $apiUri, string $apiKey, string $dynamicLinkDomain)
  * @method static UrlShortener tinyUrl(string $apiUri, string $apiKey)
  */

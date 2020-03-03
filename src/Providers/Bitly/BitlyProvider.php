@@ -12,16 +12,19 @@ use WebGarden\UrlShortener\Providers\Provider;
 
 class BitlyProvider implements Provider
 {
+    /** @var string */
+    public const DEFAULT_DOMAIN = 'bit.ly';
+
     /** @var HttpClient */
     protected $client;
 
     /** @var Domain */
     protected $domain;
 
-    public function __construct(HttpClient $client, Domain $domain)
+    public function __construct(HttpClient $client, ?Domain $domain = null)
     {
         $this->client = $client;
-        $this->domain = $domain;
+        $this->domain = $domain ?: Domain::fromNative(self::DEFAULT_DOMAIN);
     }
 
     public function expand(Url $shortUrl): Link
