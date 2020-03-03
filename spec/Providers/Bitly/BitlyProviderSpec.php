@@ -2,14 +2,12 @@
 
 namespace spec\WebGarden\UrlShortener\Providers\Bitly;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
 use spec\WebGarden\UrlShortener\Providers\LinkIdentityMatcher;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral;
 use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
+use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
@@ -30,12 +28,15 @@ class BitlyProviderSpec extends ObjectBehavior
         );
     }
 
-    function let(Client $client, ResponseInterface $response, HandlerStack $stack)
+    function let(HttpClient $client)
     {
-        $response->getBody()->willReturn('{"long_url":"https://github.com/andrzejkupczyk/url-shortener","link":"http://bit.ly/2Dkm8SJ","id":"bit.ly/2Dkm8SJ"}');
-        $client->getConfig('handler')->willReturn($stack);
+        $client->request(Argument::type('string'), Argument::type('array'))->willReturn([
+            'id' => 'bit.ly/2Dkm8SJ',
+            'link' => 'http://bit.ly/2Dkm8SJ',
+            'long_url' => 'https://github.com/andrzejkupczyk/url-shortener',
+        ]);
 
-        $this->beConstructedWith(Argument::type('string'), Domain::fromNative('bit.ly'), $client);
+        $this->beConstructedWith($client, Domain::fromNative('bit.ly'));
     }
 
     function it_is_initializable()
@@ -43,18 +44,15 @@ class BitlyProviderSpec extends ObjectBehavior
         $this->shouldHaveType(BitlyProvider::class);
     }
 
-    function it_returns_link_when_url_is_expanded($client, $response, Url $url)
+    function it_returns_link_when_url_is_expanded(Url $url)
     {
         $url->path()->willReturn(StringLiteral::fromNative('2Dkm8SJ'));
-        $client->post('expand', Argument::type('array'))->willReturn($response);
 
         $this->expand($url)->shouldHaveSameIdentity($this->link);
     }
 
-    function it_returns_link_when_url_is_shortened($client, $response, Url $url)
+    function it_returns_link_when_url_is_shortened(Url $url)
     {
-        $client->post('bitlinks', Argument::type('array'))->willReturn($response);
-
         $this->shorten($url)->shouldHaveSameIdentity($this->link);
     }
 }

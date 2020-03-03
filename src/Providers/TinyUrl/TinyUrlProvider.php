@@ -3,28 +3,28 @@
 namespace WebGarden\UrlShortener\Providers\TinyUrl;
 
 use BadMethodCallException;
+use GuzzleHttp\RequestOptions;
 use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\Factories\LinkFactory;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\Provider;
 
-class TinyUrlProvider extends HttpClient implements Provider
+class TinyUrlProvider implements Provider
 {
-    protected $baseUri = 'http://tiny-url.info/api/v1/';
+    /** @var HttpClient */
+    protected $client;
 
-    /** @var string Shorting URL service provider. */
+    /** @var string */
+    protected $apiKey;
+
+    /** @var string URL shortening service provider */
     protected $providerUrl = 'tinyurl_com';
 
-    protected static function normalizeResponse($stream): array
+    public function __construct(HttpClient $client, string $apiKey)
     {
-        $decoded = parent::normalizeResponse($stream);
-
-        return [
-            'id' => '',
-            'short_url' => $decoded['shorturl'],
-            'long_url' => $decoded['longurl'],
-        ];
+        $this->client = $client;
+        $this->apiKey = $apiKey;
     }
 
     public function expand(Url $shortUrl): Link
@@ -39,17 +39,15 @@ class TinyUrlProvider extends HttpClient implements Provider
      *
      * @see http://tiny-url.info/open_api.html#provider_list
      */
-    public function providerUrl(string $providerUrl): self
+    public function changeProviderUrl(string $providerUrl): void
     {
         $this->providerUrl = $providerUrl;
-
-        return $this;
     }
 
     public function shorten(Url $longUrl): Link
     {
         $options = [
-            'form_params' => [
+            RequestOptions::FORM_PARAMS => [
                 'format' => 'json',
                 'apikey' => $this->apiKey,
                 'provider' => $this->providerUrl,
@@ -57,6 +55,12 @@ class TinyUrlProvider extends HttpClient implements Provider
             ],
         ];
 
-        return LinkFactory::createFromRow($this->request('create', $options));
+        $response = $this->client->request('create', $options);
+
+        return LinkFactory::createFromRow([
+            'id' => '',
+            'short_url' => $response['shorturl'],
+            'long_url' => $response['longurl'],
+        ]);
     }
 }
