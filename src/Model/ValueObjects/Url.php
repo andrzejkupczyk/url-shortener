@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WebGarden\UrlShortener\Model\ValueObjects;
 
-use WebGarden\Model\ValueObject\StringLiteral\StringLiteral;
-
-class Url extends StringLiteral
+final class Url extends StringLiteral
 {
     public function path(): StringLiteral
     {
-        return StringLiteral::fromNative(parse_url($this, PHP_URL_PATH));
+        $urlPath = (string) parse_url($this->value, PHP_URL_PATH);
+
+        return new StringLiteral($urlPath);
     }
 
     protected function assertThat($value)

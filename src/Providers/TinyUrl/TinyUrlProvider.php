@@ -57,10 +57,6 @@ class TinyUrlProvider implements Provider
 
         $response = $this->client->request('create', $options);
 
-        return LinkFactory::createFromRow([
-            'id' => '',
-            'short_url' => $response['shorturl'],
-            'long_url' => $response['longurl'],
-        ]);
+        return LinkFactory::create('', $response['shorturl'], $response['longurl']);
     }
 }

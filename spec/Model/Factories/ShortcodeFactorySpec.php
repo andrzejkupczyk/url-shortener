@@ -19,6 +19,6 @@ class ShortcodeFactorySpec extends ObjectBehavior
 
     function it_generates_shortcode()
     {
-        $this->toNative()->shouldBeNumeric();
+        $this->__toString()->shouldBeNumeric();
     }
 }

@@ -3,7 +3,6 @@
 namespace spec\WebGarden\UrlShortener;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 use WebGarden\UrlShortener\Providers\Bitly\BitlyProvider;

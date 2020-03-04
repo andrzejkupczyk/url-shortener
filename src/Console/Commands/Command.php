@@ -19,7 +19,7 @@ abstract class Command extends \Illuminate\Console\Command
 
         /** @var UrlShortener $shortener */
         $shortener = call_user_func([$this, $provider]);
-        $url = Url::fromNative($this->argument('url'));
+        $url = new Url($this->argument('url'));
 
         $this->displayLink($shortener, $url);
     }
