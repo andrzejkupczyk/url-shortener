@@ -27,7 +27,7 @@ abstract class Command extends \Illuminate\Console\Command
     protected function bitly(): UrlShortener
     {
         return UrlShortener::bitly(
-            config('shortener.providers.bitly.api_uri'),
+            config('shortener.providers.bitly.api_uri', 'https://api-ssl.bitly.com/v4/'),
             $this->resolveApiKey('bitly'),
             config('shortener.providers.bitly.domain')
         );
@@ -36,7 +36,7 @@ abstract class Command extends \Illuminate\Console\Command
     protected function firebase(): UrlShortener
     {
         $shortener = UrlShortener::firebase(
-            config('shortener.providers.firebase.api_uri'),
+            config('shortener.providers.firebase.api_uri', 'https://firebasedynamiclinks.googleapis.com/v1/'),
             $this->resolveApiKey('firebase'),
             config('shortener.providers.firebase.domain')
         );
@@ -56,7 +56,7 @@ abstract class Command extends \Illuminate\Console\Command
     protected function tinyUrl(): UrlShortener
     {
         return UrlShortener::tinyUrl(
-            config('shortener.providers.tinyUrl.api_uri'),
+            config('shortener.providers.tinyUrl.api_uri', 'http://tiny-url.info/api/v1/'),
             $this->resolveApiKey('tinyUrl')
         );
     }
@@ -66,7 +66,12 @@ abstract class Command extends \Illuminate\Console\Command
         $apiKey = config("shortener.providers.{$name}.api_key");
 
         if (empty($apiKey)) {
-            $apiKey = $this->ask(sprintf('Provide your %s API key', ucfirst($name)));
+            $apiKey = $this->secret(sprintf('Provide your %s API key', ucfirst($name)));
+        }
+
+        if ($apiKey === null) {
+            $this->error('The API key is required');
+            exit(1);
         }
 
         return $apiKey;

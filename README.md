@@ -46,16 +46,17 @@ print($link->longUrl()); // https://github.com/andrzejkupczyk/url-shortener
 ## Laravel support
 It is possible to use this package easily within a Laravel >=5.5 application (it is configured for discovery).
 
-### Configuration  
+### Artisan commands
+
+```bash
+url:expand {url}   Expand short URL
+url:shorten {url}  Shorten long URL
+```
+
+### Configuration (not required)  
 
 Publish and modify the configuration file:
 ```
 php artisan vendor:publish --provider="WebGarden\UrlShortener\LaravelServiceProvider"
 ```
 
-### Artisan commands
-
-```
-url:expand {url}   Expand short URL
-url:shorten {url}  Shorten long URL
-```
