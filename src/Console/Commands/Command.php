@@ -61,6 +61,9 @@ abstract class Command extends \Illuminate\Console\Command
         );
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExitExpression)
+     */
     protected function resolveApiKey(string $name): string
     {
         $apiKey = config("shortener.providers.{$name}.api_key");
