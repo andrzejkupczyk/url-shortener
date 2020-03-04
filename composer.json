@@ -17,6 +17,7 @@
         "guzzlehttp/guzzle": "^6.5"
     },
     "require-dev": {
+        "friends-of-phpspec/phpspec-code-coverage": "^4.3",
         "illuminate/console": "^6.18",
         "illuminate/support": "^6.18",
         "phpmd/phpmd": "^2.8",
@@ -35,7 +36,7 @@
     },
     "scripts": {
         "test": [
-            "phpspec run --ansi"
+            "phpspec run --ansi --no-coverage"
         ],
         "analyse": [
             "phpmd src/ text codesize,controversial,design,unusedcode",

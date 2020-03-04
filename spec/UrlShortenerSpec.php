@@ -22,7 +22,7 @@ class UrlShortenerSpec extends ObjectBehavior
 
     function it_is_initializable_statically_using_the_bitly_provider()
     {
-        $this->beConstructedWith(new BitlyProvider(new HttpClient(''), new Domain('bit.ly')));
+        $this->beConstructedWith(new BitlyProvider(new HttpClient('')));
 
         $subject = UrlShortener::bitly('', '', 'bit.ly');
 

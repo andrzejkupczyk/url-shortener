@@ -48,6 +48,13 @@ class FirebaseProviderSpec extends ObjectBehavior
         $this->suffixBeingUsed()->shouldBe(FirebaseProvider::UNGUESSABLE_SUFFIX);
     }
 
+    function it_specifies_that_suffix_should_be_unguessable()
+    {
+        $this->useUnguessableSuffix();
+
+        $this->suffixBeingUsed()->shouldBe(FirebaseProvider::UNGUESSABLE_SUFFIX);
+    }
+
     function it_specifies_that_suffix_should_be_short()
     {
         $this->useShortSuffix();
