@@ -9,7 +9,7 @@ use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 /**
  * @internal the class is used by the UrlShortener to instantiate itself using static calls
  */
-class Factory
+final class Factory
 {
     public static function bitly(string $apiUri, string $apiKey, ?string $domain = null): Provider
     {
@@ -20,20 +20,16 @@ class Factory
             return new Bitly\BitlyProvider($client);
         }
 
-        return new Bitly\BitlyProvider($client, Domain::fromNative($domain));
+        return new Bitly\BitlyProvider($client, new Domain($domain));
     }
 
     public static function firebase(string $apiUri, string $apiKey, string $dynamicLinkDomain): Provider
     {
-        $client = new HttpClient($apiUri);
-
-        return new Google\FirebaseProvider($client, $apiKey, Domain::fromNative($dynamicLinkDomain));
+        return new Google\FirebaseProvider(new HttpClient($apiUri), $apiKey, new Domain($dynamicLinkDomain));
     }
 
     public static function tinyUrl(string $apiUri, string $apiKey): Provider
     {
-        $client = new HttpClient($apiUri);
-
-        return new TinyUrl\TinyUrlProvider($client, $apiKey);
+        return new TinyUrl\TinyUrlProvider(new HttpClient($apiUri), $apiKey);
     }
 }

@@ -8,7 +8,6 @@ use GuzzleHttp\RequestOptions;
 
 class HttpClient
 {
-    /** @var array */
     public const DEFAULT_OPTIONS = [
         RequestOptions::TIMEOUT => 10,
     ];

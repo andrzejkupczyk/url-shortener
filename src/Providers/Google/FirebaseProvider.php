@@ -52,8 +52,8 @@ class FirebaseProvider implements Provider
         $options = [
             RequestOptions::JSON => [
                 'dynamicLinkInfo' => [
-                    'dynamicLinkDomain' => $this->dynamicLinkDomain->toNative(),
-                    'link' => $longUrl->toNative(),
+                    'dynamicLinkDomain' => (string) $this->dynamicLinkDomain,
+                    'link' => (string) $longUrl,
                 ],
                 'suffix' => [
                     'option' => $this->suffixLength,
@@ -66,11 +66,7 @@ class FirebaseProvider implements Provider
 
         $response = $this->client->request('shortLinks', $options);
 
-        return LinkFactory::createFromRow([
-            'id' => '',
-            'short_url' => $response['shortLink'],
-            'long_url' => $response['previewLink'],
-        ]);
+        return LinkFactory::create('', $response['shortLink'], $response['previewLink']);
     }
 
     /**

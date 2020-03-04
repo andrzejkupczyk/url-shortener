@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WebGarden\UrlShortener\Model\ValueObjects;
 
-use WebGarden\Model\ValueObject\StringLiteral\StringLiteral;
-
-class Domain extends StringLiteral
+final class Domain extends StringLiteral
 {
-    protected const PATTERN = '/^(?!:\/\/)([a-z0-9-_]+\.)*[a-z0-9][a-z0-9-_]+\.[a-z]{2,11}?$/i';
+    private const PATTERN = '/^(?!:\/\/)([a-z0-9-_]+\.)*[a-z0-9][a-z0-9-_]+\.[a-z]{2,11}?$/i';
 
     protected function assertThat($value)
     {

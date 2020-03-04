@@ -12,7 +12,6 @@ use WebGarden\UrlShortener\Providers\Provider;
 
 class BitlyProvider implements Provider
 {
-    /** @var string */
     public const DEFAULT_DOMAIN = 'bit.ly';
 
     /** @var HttpClient */
@@ -24,7 +23,7 @@ class BitlyProvider implements Provider
     public function __construct(HttpClient $client, ?Domain $domain = null)
     {
         $this->client = $client;
-        $this->domain = $domain ?: Domain::fromNative(self::DEFAULT_DOMAIN);
+        $this->domain = $domain ?: new Domain(self::DEFAULT_DOMAIN);
     }
 
     public function expand(Url $shortUrl): Link
@@ -44,8 +43,8 @@ class BitlyProvider implements Provider
     {
         $options = [
             RequestOptions::JSON => [
-                'domain' => $this->domain->toNative(),
-                'long_url' => $longUrl->toNative(),
+                'domain' => (string) $this->domain,
+                'long_url' => (string) $longUrl,
             ],
         ];
 
@@ -56,10 +55,6 @@ class BitlyProvider implements Provider
 
     private function createLink(array $response): Link
     {
-        return LinkFactory::createFromRow([
-            'id' => $response['id'],
-            'short_url' => $response['link'],
-            'long_url' => $response['long_url'],
-        ]);
+        return LinkFactory::create($response['id'], $response['link'], $response['long_url']);
     }
 }

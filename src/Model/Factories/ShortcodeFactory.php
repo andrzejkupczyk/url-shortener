@@ -5,7 +5,7 @@ namespace WebGarden\UrlShortener\Model\Factories;
 use Godruoyi\Snowflake\Snowflake;
 use WebGarden\UrlShortener\Model\ValueObjects\Shortcode;
 
-class ShortcodeFactory
+final class ShortcodeFactory
 {
     /**
      * @see https://developer.twitter.com/en/docs/basics/twitter-ids

@@ -2,8 +2,8 @@
 
 namespace spec\WebGarden\UrlShortener\Model\ValueObjects;
 
+use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
-use WebGarden\Model\Assert\AssertionException;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
 
 class DomainSpec extends ObjectBehavior
@@ -19,6 +19,6 @@ class DomainSpec extends ObjectBehavior
     {
         $this->beConstructedWith('http://andrzejkupczyk.pl');
 
-        $this->shouldThrow(AssertionException::class)->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 }

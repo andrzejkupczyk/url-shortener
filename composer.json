@@ -11,13 +11,14 @@
     ],
     "require": {
         "php": "^7.3",
-        "andrzejkupczyk/ddd-building-blocks": "^2.1",
+        "andrzejkupczyk/ddd-generic-subdomain": "^1.0",
+        "beberlei/assert": "^3.2",
         "godruoyi/php-snowflake": "^1.0",
         "guzzlehttp/guzzle": "^6.5"
     },
     "require-dev": {
-        "illuminate/console": "^6.15",
-        "illuminate/support": "^6.15",
+        "illuminate/console": "^6.18",
+        "illuminate/support": "^6.18",
         "phpmd/phpmd": "^2.8",
         "phpspec/phpspec": "^6.1",
         "squizlabs/php_codesniffer": "^3.5"

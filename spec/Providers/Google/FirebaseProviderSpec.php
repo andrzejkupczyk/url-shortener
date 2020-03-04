@@ -2,13 +2,14 @@
 
 namespace spec\WebGarden\UrlShortener\Providers\Google;
 
+use BadMethodCallException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use spec\WebGarden\UrlShortener\Providers\LinkIdentityMatcher;
-use WebGarden\Model\ValueObject\StringLiteral\StringLiteral as Id;
 use WebGarden\UrlShortener\Clients\Http\HttpClient;
 use WebGarden\UrlShortener\Model\Entities\Link;
 use WebGarden\UrlShortener\Model\ValueObjects\Domain;
+use WebGarden\UrlShortener\Model\ValueObjects\StringLiteral;
 use WebGarden\UrlShortener\Model\ValueObjects\Url;
 use WebGarden\UrlShortener\Providers\Google\FirebaseProvider;
 
@@ -21,20 +22,20 @@ class FirebaseProviderSpec extends ObjectBehavior
     public function __construct()
     {
         $this->link = new Link(
-            Id::fromNative(''),
-            Url::fromNative('https://example.page.link/short'),
-            Url::fromNative('https://example.page.link/preview')
+            new StringLiteral(''),
+            new Url('https://example.page.link/short'),
+            new Url('https://example.page.link/preview')
         );
     }
 
-    function let(HttpClient $client, Domain $domain)
+    function let(HttpClient $client)
     {
         $client->request('shortLinks', Argument::type('array'))->willReturn([
             'shortLink' => 'https://example.page.link/short',
             'previewLink' => 'https://example.page.link/preview',
         ]);
 
-        $this->beConstructedWith($client, '', $domain);
+        $this->beConstructedWith($client, '', new Domain('example.page.link'));
     }
 
     function it_is_initializable()
@@ -54,13 +55,17 @@ class FirebaseProviderSpec extends ObjectBehavior
         $this->suffixBeingUsed()->shouldBe(FirebaseProvider::SHORT_SUFFIX);
     }
 
-    function it_returns_link_when_url_is_shortened(Url $url)
+    function it_returns_link_when_url_is_shortened()
     {
+        $url = new Url('https://example.page.link/preview');
+
         $this->shorten($url)->shouldHaveSameIdentity($this->link);
     }
 
-    function it_throws_exception_when_url_is_expanded(Url $url)
+    function it_throws_exception_when_url_is_expanded()
     {
-        $this->shouldThrow(\BadMethodCallException::class)->duringExpand($url);
+        $url = new Url('https://example.page.link/short');
+
+        $this->shouldThrow(BadMethodCallException::class)->duringExpand($url);
     }
 }

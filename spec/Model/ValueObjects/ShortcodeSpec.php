@@ -2,9 +2,9 @@
 
 namespace spec\WebGarden\UrlShortener\Model\ValueObjects;
 
+use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use WebGarden\Model\Assert\AssertionException;
 use WebGarden\UrlShortener\Model\ValueObjects\Shortcode;
 
 class ShortcodeSpec extends ObjectBehavior
@@ -20,6 +20,6 @@ class ShortcodeSpec extends ObjectBehavior
     {
         $this->beConstructedWith('!@#$%^&*()_+');
 
-        $this->shouldThrow(AssertionException::class)->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 }

@@ -1,15 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace WebGarden\UrlShortener\Model\ValueObjects;
 
-use WebGarden\Model\ValueObject\StringLiteral\StringLiteral;
-
-class Shortcode extends StringLiteral
+final class Shortcode extends StringLiteral
 {
-    protected const CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private const CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     protected function assertThat($value)
     {
-        return parent::assertThat($value)->regex('/[' . static::CHARS . ']+/');
+        return parent::assertThat($value)->regex('/[' . self::CHARS . ']+/');
     }
 }
