@@ -17,16 +17,16 @@ final class UrlShortener implements Provider
     /** @var Provider */
     private $provider;
 
+    public function __construct(Provider $provider)
+    {
+        $this->provider = $provider;
+    }
+
     public static function __callStatic($name, $arguments)
     {
         $provider = ProviderFactory::$name(...$arguments);
 
         return new static($provider);
-    }
-
-    public function __construct(Provider $provider)
-    {
-        $this->provider = $provider;
     }
 
     public function expand(Url $shortUrl): Link

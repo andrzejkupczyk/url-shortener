@@ -1,0 +1,19 @@
+<?php
+        /*
+        * This document has been generated with
+        * https://mlocati.github.io/php-cs-fixer-configurator/#version:2.16.1|configurator
+        * you can change this configuration by importing this file.
+        */
+        return PhpCsFixer\Config::create()
+        ->setRules([
+        '@PSR2' => true,
+        '@PhpCsFixer' => true,
+        'concat_space' => ['spacing'=>'one'],
+        'ordered_class_elements' => ['order'=>['use_trait','constant_public','constant_protected','constant_private','property_public_static','property_protected_static','property_private_static','property_public','property_protected','property_private','method_public_static','method_protected_static','method_private_static','construct','destruct','magic','phpunit','method_public','method_protected','method_private']],
+        'yoda_style' => ['always_move_variable'=>false,'equal'=>false,'identical'=>false,'less_and_greater'=>false],
+        ])
+        ->setFinder(PhpCsFixer\Finder::create()
+        ->exclude(['spec', 'vendor'])
+        ->in(__DIR__)
+        )
+        ;
