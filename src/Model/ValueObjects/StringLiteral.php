@@ -18,7 +18,7 @@ class StringLiteral implements ValueObject
      */
     final public function __construct($value)
     {
-        static::assertThat($value);
+        $this->assertThat($value);
 
         $this->value = $value;
     }
