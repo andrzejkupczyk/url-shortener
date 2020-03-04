@@ -51,7 +51,7 @@ class TinyUrlProvider implements Provider
                 'format' => 'json',
                 'apikey' => $this->apiKey,
                 'provider' => $this->providerUrl,
-                'url' => $longUrl->toNative(),
+                'url' => (string) $longUrl,
             ],
         ];
 
