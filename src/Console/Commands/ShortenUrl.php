@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebGarden\UrlShortener\Console\Commands;
 
 use WebGarden\UrlShortener\Model\ValueObjects\Url;

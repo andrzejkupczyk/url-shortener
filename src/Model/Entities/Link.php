@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebGarden\UrlShortener\Model\Entities;
 
 use WebGarden\Model\Entity\Entity;
