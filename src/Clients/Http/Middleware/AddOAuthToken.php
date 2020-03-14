@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebGarden\UrlShortener\Clients\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;

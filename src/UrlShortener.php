@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebGarden\UrlShortener;
 
 use WebGarden\UrlShortener\Model\Entities\Link;
