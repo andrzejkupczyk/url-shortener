@@ -16,16 +16,14 @@ class BitlyProvider implements Provider
 {
     public const DEFAULT_DOMAIN = 'bit.ly';
 
-    /** @var HttpClient */
-    protected $client;
+    protected HttpClient $client;
 
-    /** @var Domain */
-    protected $domain;
+    protected Domain $domain;
 
     public function __construct(HttpClient $client, ?Domain $domain = null)
     {
         $this->client = $client;
-        $this->domain = $domain ?: new Domain(self::DEFAULT_DOMAIN);
+        $this->domain = $domain ?? new Domain(self::DEFAULT_DOMAIN);
     }
 
     public function expand(Url $shortUrl): Link

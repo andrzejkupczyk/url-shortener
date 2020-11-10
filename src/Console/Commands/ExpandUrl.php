@@ -13,6 +13,11 @@ class ExpandUrl extends Command
 
     protected $signature = 'url:expand {url : The short URL to be expanded}';
 
+    /**
+     * @return string[]
+     *
+     * @psalm-return array{0: string}
+     */
     public static function providers(): array
     {
         return ['bitly'];

@@ -1,6 +1,4 @@
 formatter.name: pretty
-extensions:
-    FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension: ~
 suites:
     default:
         namespace: WebGarden\UrlShortener

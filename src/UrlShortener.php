@@ -16,15 +16,14 @@ use WebGarden\UrlShortener\Providers\Provider;
  */
 final class UrlShortener implements Provider
 {
-    /** @var Provider */
-    private $provider;
+    private Provider $provider;
 
     public function __construct(Provider $provider)
     {
         $this->provider = $provider;
     }
 
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic(string $name, array $arguments)
     {
         $provider = ProviderFactory::$name(...$arguments);
 

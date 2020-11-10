@@ -23,17 +23,14 @@ class FirebaseProvider implements Provider
     public const SHORT_SUFFIX = 'SHORT';
     public const UNGUESSABLE_SUFFIX = 'UNGUESSABLE';
 
-    /** @var HttpClient */
-    protected $client;
+    protected HttpClient $client;
 
-    /** @var string */
-    protected $apiKey;
+    protected string $apiKey;
 
-    /** @var \WebGarden\UrlShortener\Model\ValueObjects\Domain */
-    protected $dynamicLinkDomain;
+    protected Domain $dynamicLinkDomain;
 
     /** @var string Specifies how the path component of the short Dynamic Link is generated */
-    protected $suffixLength = self::UNGUESSABLE_SUFFIX;
+    protected string $suffixLength = self::UNGUESSABLE_SUFFIX;
 
     public function __construct(HttpClient $client, string $apiKey, Domain $dynamicLinkDomain)
     {

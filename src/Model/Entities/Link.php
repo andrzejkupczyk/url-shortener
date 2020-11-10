@@ -10,14 +10,11 @@ use WebGarden\UrlShortener\Model\ValueObjects\Url;
 
 final class Link implements Entity
 {
-    /** @var ValueObject */
-    private $id;
+    private ValueObject $id;
 
-    /** @var Url */
-    private $shortUrl;
+    private Url $shortUrl;
 
-    /** @var Url */
-    private $longUrl;
+    private Url $longUrl;
 
     public function __construct(ValueObject $id, Url $shortUrl, Url $longUrl)
     {

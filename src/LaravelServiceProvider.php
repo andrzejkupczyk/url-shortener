@@ -10,7 +10,7 @@ use WebGarden\UrlShortener\Console\Commands\ShortenUrl;
 
 class LaravelServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__ . '/../config/shortener.php' => config_path('shortener.php'),

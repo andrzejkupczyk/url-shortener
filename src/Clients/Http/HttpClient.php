@@ -7,6 +7,7 @@ namespace WebGarden\UrlShortener\Clients\Http;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 class HttpClient
 {
@@ -14,8 +15,7 @@ class HttpClient
         RequestOptions::TIMEOUT => 10,
     ];
 
-    /** @var \GuzzleHttp\ClientInterface */
-    protected $client;
+    protected Client $client;
 
     public function __construct(string $apiUri, array $options = self::DEFAULT_OPTIONS)
     {
@@ -24,12 +24,14 @@ class HttpClient
 
     /**
      * Send request and get normalized response.
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request(string $path, array $options = []): array
     {
-        $response = $this->client->post($path, $options)->getBody();
+        $response = $this->client->post($path, $options)->getBody()->getContents();
 
-        return \GuzzleHttp\json_decode($response, true);
+        return Utils::jsonDecode($response, true);
     }
 
     /**
