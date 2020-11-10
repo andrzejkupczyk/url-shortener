@@ -14,14 +14,12 @@ use WebGarden\UrlShortener\Providers\Provider;
 
 class TinyUrlProvider implements Provider
 {
-    /** @var HttpClient */
-    protected $client;
+    protected HttpClient $client;
 
-    /** @var string */
-    protected $apiKey;
+    protected string $apiKey;
 
     /** @var string URL shortening service provider */
-    protected $providerUrl = 'tinyurl_com';
+    protected string $providerUrl = 'tinyurl_com';
 
     public function __construct(HttpClient $client, string $apiKey)
     {

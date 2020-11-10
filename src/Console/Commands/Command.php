@@ -10,14 +10,19 @@ use WebGarden\UrlShortener\UrlShortener;
 
 abstract class Command extends \Illuminate\Console\Command
 {
+    /**
+     * @return string[]
+     *
+     * @psalm-return array<array-key, string>
+     */
     public static function providers(): array
     {
         return get_class_methods(Factory::class);
     }
 
-    public function handle()
+    public function handle(): void
     {
-        $provider = $this->choice('What provider would you like to use?', static::providers(), 0);
+        $provider = $this->choice('What provider would you like to use?', static::providers());
 
         /** @var UrlShortener $shortener */
         $shortener = call_user_func([$this, $provider]);

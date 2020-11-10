@@ -13,7 +13,7 @@ use WebGarden\UrlShortener\Model\ValueObjects\Domain;
  */
 final class Factory
 {
-    public static function bitly(string $apiUri, string $apiKey, ?string $domain = null): Provider
+    public static function bitly(string $apiUri, string $apiKey, ?string $domain = null): Bitly\BitlyProvider
     {
         $client = new HttpClient($apiUri);
         $client->pushMiddleware(new AddOAuthToken($apiKey));
@@ -25,12 +25,12 @@ final class Factory
         return new Bitly\BitlyProvider($client, new Domain($domain));
     }
 
-    public static function firebase(string $apiUri, string $apiKey, string $dynamicLinkDomain): Provider
+    public static function firebase(string $apiUri, string $apiKey, string $dynamicLinkDomain): Google\FirebaseProvider
     {
         return new Google\FirebaseProvider(new HttpClient($apiUri), $apiKey, new Domain($dynamicLinkDomain));
     }
 
-    public static function tinyUrl(string $apiUri, string $apiKey): Provider
+    public static function tinyUrl(string $apiUri, string $apiKey): TinyUrl\TinyUrlProvider
     {
         return new TinyUrl\TinyUrlProvider(new HttpClient($apiUri), $apiKey);
     }
