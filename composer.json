@@ -49,7 +49,7 @@
         },
         "laravel": {
             "providers": [
-                "WebGarden\\UrlShortener\\LaravelServiceProvider"
+                "WebGarden\\UrlShortener\\Laravel\\ServiceProvider"
             ]
         }
     },
