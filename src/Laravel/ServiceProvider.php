@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace WebGarden\UrlShortener;
+namespace WebGarden\UrlShortener\Laravel;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use WebGarden\UrlShortener\Console\Commands\ExpandUrl;
 use WebGarden\UrlShortener\Console\Commands\ShortenUrl;
 
-class LaravelServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     public function boot(): void
     {
