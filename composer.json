@@ -10,15 +10,15 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8.0",
         "andrzejkupczyk/ddd-generic-subdomain": "^1.0",
         "beberlei/assert": "^v3.2",
         "godruoyi/php-snowflake": "^1.0",
         "guzzlehttp/guzzle": "^7.2"
     },
     "require-dev": {
-        "illuminate/console": "^v8.13",
-        "illuminate/support": "^v8.13",
+        "illuminate/console": "^v8.27",
+        "illuminate/support": "^v8.27",
         "phpspec/phpspec": "^7.0",
         "psalm/plugin-laravel": "^1.4",
         "squizlabs/php_codesniffer": "^3.5",
