@@ -1,6 +1,6 @@
 # URL Shortener
 
-![PHP requirement](https://img.shields.io/badge/PHP-^7.3-blue.svg?logo=php&style=for-the-badge)
+![PHP requirement](https://img.shields.io/packagist/php-v/andrzejkupczyk/url-shortener?logo=php&style=for-the-badge)
 ![Build status](https://img.shields.io/travis/andrzejkupczyk/url-shortener/master?logo=travis&style=for-the-badge)
 ![Code quality](https://img.shields.io/scrutinizer/quality/g/andrzejkupczyk/url-shortener?logo=scrutinizer&style=for-the-badge)
 
