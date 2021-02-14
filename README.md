@@ -1,6 +1,8 @@
 # URL Shortener
 
 ![PHP requirement](https://img.shields.io/packagist/php-v/andrzejkupczyk/url-shortener?logo=php&style=for-the-badge)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/andrzejkupczyk/url-shortener?sort=semver&style=for-the-badge)
+[![GitHub license](https://img.shields.io/github/license/andrzejkupczyk/url-shortener?style=for-the-badge)](https://github.com/andrzejkupczyk/url-shortener/blob/main/LICENSE "License")
 ![Build status](https://img.shields.io/travis/andrzejkupczyk/url-shortener/master?logo=travis&style=for-the-badge)
 ![Code quality](https://img.shields.io/scrutinizer/quality/g/andrzejkupczyk/url-shortener?logo=scrutinizer&style=for-the-badge)
 
